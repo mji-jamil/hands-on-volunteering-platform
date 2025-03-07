@@ -34,10 +34,10 @@ cd frontend
 npm install
 
 ## Start Development Servers
-Backend (from server directory):
+#Backend (from server directory):
 npm run dev
-# Server running on http://localhost:5000
-Frontend (from client directory):
+
+#Frontend (from client directory):
 npm run dev
 
 📚 API Documentation
