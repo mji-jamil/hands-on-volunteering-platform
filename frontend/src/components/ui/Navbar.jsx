@@ -22,14 +22,25 @@ export default function Navbar() {
         <nav className="bg-white shadow-sm">
             <div className="max-w-7xl mx-auto px-4 py-3">
                 <div className="flex justify-between items-center">
-                    <Link to="/" className="text-xl font-bold text-green-600">
-                        HandsOn
-                    </Link>
+                    <div className="flex items-center space-x-8">
+                        <Link to="/" className="text-xl font-bold text-green-600">
+                            HandsOn
+                        </Link>
+                        <Link
+                            to="/events"
+                            className="text-gray-700 hover:text-green-600"
+                        >
+                            Events
+                        </Link>
+                    </div>
 
                     <div className="flex items-center space-x-4">
                         {user ? (
                             <>
-                                <Link to="/profile" className="text-gray-700 hover:text-green-600">
+                                <Link
+                                    to="/profile"
+                                    className="text-gray-700 hover:text-green-600"
+                                >
                                     Profile
                                 </Link>
                                 <button
@@ -40,7 +51,10 @@ export default function Navbar() {
                                 </button>
                             </>
                         ) : (
-                            <Link to="/login" className="text-gray-700 hover:text-green-600">
+                            <Link
+                                to="/login"
+                                className="text-gray-700 hover:text-green-600"
+                            >
                                 Login
                             </Link>
                         )}
