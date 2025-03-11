@@ -21,6 +21,7 @@ const protect = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // console.log('decoded', decoded);
         req.user = await User.findById(decoded.id).select('-password');
         next();
     } catch (error) {
@@ -32,4 +33,4 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+module.exports = protect;

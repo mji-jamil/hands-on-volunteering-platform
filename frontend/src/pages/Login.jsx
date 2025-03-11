@@ -23,6 +23,8 @@ export default function Login() {
                 withCredentials: true
             });
 
+            console.log(res.data);
+
             if (res.data.success) {
                 login(res.data.user)
                 localStorage.setItem('user', JSON.stringify(res.data.user));
