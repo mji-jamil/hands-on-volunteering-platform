@@ -4,7 +4,6 @@ import axios from "axios";
 const ProfileDisplay = ({ user }) => {
     const [joinedEvents, setJoinedEvents] = useState([]);
     const [loading, setLoading] = useState(true);
-    console.log(user._id);
 
     useEffect(() => {
         const fetchJoinedEvents = async () => {
