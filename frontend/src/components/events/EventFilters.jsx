@@ -4,11 +4,17 @@ const EventFilters = ({ onFilterChange }) => {
     const [filters, setFilters] = useState({
         category: "",
         type: "",
-        location: "",
+        search: "",
+        urgency: "",
     });
 
     const handleChange = (e) => {
-        const newFilters = { ...filters, [e.target.name]: e.target.value };
+        const newFilters = {
+            ...filters,
+            [e.target.name]: e.target.value,
+            ...(e.target.name === "type" &&
+                e.target.value !== "communityHelp" && { urgency: "" }),
+        };
         setFilters(newFilters);
         onFilterChange(newFilters);
     };
@@ -41,12 +47,25 @@ const EventFilters = ({ onFilterChange }) => {
 
                 <input
                     type="text"
-                    name="location"
-                    placeholder="Location"
-                    value={filters.location}
+                    name="search"
+                    placeholder="Search by name or location"
+                    value={filters.search}
                     onChange={handleChange}
                     className="p-2 rounded border"
                 />
+                {filters.type === "communityHelp" && (
+                    <select
+                        name="urgency"
+                        value={filters.urgency}
+                        onChange={handleChange}
+                        className="p-2 rounded border"
+                    >
+                        <option value="">All Urgency Levels</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                )}
             </div>
         </div>
     );

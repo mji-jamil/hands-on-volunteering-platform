@@ -6,6 +6,7 @@ import PrivateRoute from "./components/navigation/PrivateRoute.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
+import EventDetails from "./components/events/EventDetails.jsx";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Navbar />
                     <Routes>
                         <Route path="/" element={<EventsPage />} />
+                        <Route path="/events/:eventId" element={<EventDetails />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route
@@ -25,7 +27,6 @@ function App() {
                                 </PrivateRoute>
                             }
                         />
-                        <Route path="/events" element={<EventsPage />} />
                         <Route path="*" element={<div>404 Not Found</div>} />
                     </Routes>
                 </div>
