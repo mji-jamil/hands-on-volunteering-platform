@@ -1,6 +1,7 @@
 const Comment = require("../models/Comment");
 const Event = require("../models/Event");
 
+// create comment
 exports.createComment = async (req, res) => {
     try {
         if (!req.body.content || req.body.content.trim() === "") {
@@ -33,6 +34,7 @@ exports.createComment = async (req, res) => {
     }
 };
 
+// comment fetch
 exports.getComments = async (req, res) => {
     try {
         const comments = await Comment.find({ event: req.params.eventId })

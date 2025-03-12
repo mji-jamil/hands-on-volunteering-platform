@@ -115,5 +115,3 @@ Content-Type: application/json
 | 💥 409  | **Duplicate Email**           | `{"message": "User already exists"}`     |
 | ⏳ 429  | **Rate Limit Exceeded**       | `{"message": "Too many attempts"}`        |
 | 🖥️ 500  | **Internal Server Error**     | `{"message": "Internal server error"}`    |
-
-
