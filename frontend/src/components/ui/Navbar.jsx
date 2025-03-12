@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import axios from "axios";
 import useAuth from "../../hooks/useAuth.js";
 
 export default function Navbar() {
@@ -7,14 +7,18 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:5000/api/auth/logout', {}, {
-                withCredentials: true
-            });
+            await axios.post(
+                "http://localhost:5000/api/auth/logout",
+                {},
+                {
+                    withCredentials: true,
+                },
+            );
         } catch (err) {
-            console.error('Logout error:', err);
+            console.error("Logout error:", err);
         } finally {
             logout();
-            window.location.href = '/login';
+            window.location.href = "/login";
         }
     };
 
@@ -23,7 +27,10 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 py-3">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-8">
-                        <Link to="/" className="text-xl font-bold text-green-600">
+                        <Link
+                            to="/"
+                            className="text-xl font-bold text-green-600"
+                        >
                             HandsOn
                         </Link>
                         <Link

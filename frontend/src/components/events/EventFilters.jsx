@@ -1,10 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 
 const EventFilters = ({ onFilterChange }) => {
     const [filters, setFilters] = useState({
-        category: '',
-        type: '',
-        location: ''
+        category: "",
+        type: "",
+        location: "",
     });
 
     const handleChange = (e) => {

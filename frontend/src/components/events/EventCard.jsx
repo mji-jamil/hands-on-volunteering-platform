@@ -1,5 +1,5 @@
 import useAuth from "../../hooks/useAuth.js";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const EventCard = ({ event, onJoin }) => {
     const { user } = useAuth();
@@ -8,12 +8,12 @@ const EventCard = ({ event, onJoin }) => {
 
     useEffect(() => {
         if (user && event.attendees) {
-            const joined = event.attendees.some((attendee) =>
-                {
-                    const attendeeId = attendee._id ? attendee._id.toString() : attendee.toString();
-                    return attendeeId === user._id;
-                }
-            );
+            const joined = event.attendees.some((attendee) => {
+                const attendeeId = attendee._id
+                    ? attendee._id.toString()
+                    : attendee.toString();
+                return attendeeId === user._id;
+            });
             setIsJoined(joined);
         }
     }, [user, event.attendees]);

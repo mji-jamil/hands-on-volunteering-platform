@@ -9,7 +9,7 @@ const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [filters, setFilters] = useState({});
     const { user } = useAuth();
-    console.log(user);
+    // console.log(user);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -44,10 +44,12 @@ const EventsPage = () => {
 
             setEvents(
                 events.map((event) =>
-                    event._id === eventId ? {
-                        ...event,
-                        attendees: response.data.attendees
-                    } : event
+                    event._id === eventId
+                        ? {
+                              ...event,
+                              attendees: response.data.attendees,
+                          }
+                        : event,
                 ),
             );
         } catch (error) {

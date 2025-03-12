@@ -5,8 +5,4 @@ export const SKILL_OPTIONS = [
     "Organization",
 ];
 
-export const CAUSE_OPTIONS = [
-    "Environment",
-    "Education",
-    "Healthcare"
-];
+export const CAUSE_OPTIONS = ["Environment", "Education", "Healthcare"];

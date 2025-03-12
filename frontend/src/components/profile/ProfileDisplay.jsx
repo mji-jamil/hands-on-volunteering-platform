@@ -9,7 +9,7 @@ const ProfileDisplay = ({ user }) => {
         const fetchJoinedEvents = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/events/user/${user._id}`
+                    `http://localhost:5000/api/events/user/${user._id}`,
                 );
                 if (response.data.success) {
                     setJoinedEvents(response.data.data);
@@ -100,8 +100,6 @@ const ProfileDisplay = ({ user }) => {
                     </div>
                 )}
             </div>
-
-
         </div>
     );
 };

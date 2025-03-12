@@ -1,17 +1,17 @@
-import { SKILL_OPTIONS, CAUSE_OPTIONS } from "../../constants/index.js";
+import { CAUSE_OPTIONS, SKILL_OPTIONS } from "../../constants/index.js";
 
 const EditForm = ({ formData, setFormData, handleUpdate }) => {
     const handleSkillChange = (e, skill) => {
         const skills = e.target.checked
             ? [...formData.skills, skill]
-            : formData.skills.filter(s => s !== skill);
+            : formData.skills.filter((s) => s !== skill);
         setFormData({ ...formData, skills });
     };
 
     const handleCauseChange = (e, cause) => {
         const causes = e.target.checked
             ? [...formData.causes, cause]
-            : formData.causes.filter(c => c !== cause);
+            : formData.causes.filter((c) => c !== cause);
         setFormData({ ...formData, causes });
     };
 
@@ -24,7 +24,9 @@ const EditForm = ({ formData, setFormData, handleUpdate }) => {
                 <input
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                    }
                     className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500"
                     required
                 />
@@ -35,8 +37,11 @@ const EditForm = ({ formData, setFormData, handleUpdate }) => {
                     Skills
                 </label>
                 <div className="grid grid-cols-2 gap-3">
-                    {SKILL_OPTIONS.map(skill => (
-                        <label key={skill} className="flex items-center space-x-2">
+                    {SKILL_OPTIONS.map((skill) => (
+                        <label
+                            key={skill}
+                            className="flex items-center space-x-2"
+                        >
                             <input
                                 type="checkbox"
                                 checked={formData.skills.includes(skill)}
@@ -54,8 +59,11 @@ const EditForm = ({ formData, setFormData, handleUpdate }) => {
                     Causes You Support
                 </label>
                 <div className="grid grid-cols-2 gap-3">
-                    {CAUSE_OPTIONS.map(cause => (
-                        <label key={cause} className="flex items-center space-x-2">
+                    {CAUSE_OPTIONS.map((cause) => (
+                        <label
+                            key={cause}
+                            className="flex items-center space-x-2"
+                        >
                             <input
                                 type="checkbox"
                                 checked={formData.causes.includes(cause)}
