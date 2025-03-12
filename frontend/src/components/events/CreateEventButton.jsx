@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState } from "react";
 import useAuth from "../../hooks/useAuth.js";
 import EventForm from "./EventForm.jsx";
-
 
 const CreateEventButton = ({ onEventCreated }) => {
     const [showForm, setShowForm] = useState(false);
@@ -9,7 +8,7 @@ const CreateEventButton = ({ onEventCreated }) => {
 
     const handleButtonClick = () => {
         if (!user) {
-            window.location.href = '/login';
+            window.location.href = "/login";
             return;
         }
         setShowForm(true);
