@@ -4,10 +4,34 @@ const mongoose = require("mongoose");
 // create an event
 exports.createEvent = async (req, res) => {
     try {
-        const event = new Event(req.body);
+        // urgency level
+        if (req.body.type === "communityHelp") {
+            if (!req.body.urgency) {
+                return res.status(400).json({
+                    error: "Urgency level is required for community help events"
+                });
+            }
+        }
+        // validate date & time
+        const eventDateTime = new Date(`${req.body.date}T${req.body.time}`);
+        if (eventDateTime < new Date()) {
+            return res.status(400).json({
+                error: "Event date/time must be in the future"
+            });
+        }
+        // create and save event
+        const event = new Event({
+            ...req.body,
+            date: eventDateTime
+        });
+
         await event.save();
         res.status(201).json(event);
     } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            const errors = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({ error: errors.join(', ') });
+        }
         res.status(500).json({ error: error.message });
     }
 };
@@ -15,7 +39,27 @@ exports.createEvent = async (req, res) => {
 // get all events
 exports.getAllEvents = async (req, res) => {
     try {
-        const events = await Event.find({}).populate("attendees", "_id");
+        const { category, type, search, urgency } = req.query;
+        const query = {};
+
+        if (category) query.category = category;
+        if (type) query.type = type;
+
+        if (type === "communityHelp" && urgency) {
+            query.urgency = urgency;
+        }
+
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                { location: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const events = await Event.find(query)
+            .populate("attendees", "_id")
+            .sort({ date: 1 });
+
         res.json(events);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -38,8 +82,25 @@ exports.joinEvent = async (req, res) => {
     }
 };
 
-// get event by userid
+// get event by id
 exports.getEventById = async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.eventId)
+            .populate("attendees", "_id name")
+            .populate("comments");
+
+        if (!event) {
+            return res.status(404).json({ error: "Event not found" });
+        }
+
+        res.json(event);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// get event by userid
+exports.getEventByUserId = async (req, res) => {
     try {
         const userId = req.params.userId;
 

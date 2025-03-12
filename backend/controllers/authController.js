@@ -25,7 +25,7 @@ exports.registerUser = async (req, res) => {
 
         const payload = { id: user.id };
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1h",
+            expiresIn: "6h",
         });
         res.cookie("token", token, {
             httpOnly: true,
@@ -66,7 +66,7 @@ exports.loginUser = async (req, res) => {
         }
         const token = jwt.sign(
             { id: user.id },
-            process.env.JWT_SECRET, // Ensure this exists in .env
+            process.env.JWT_SECRET,
             { expiresIn: "8h" },
         );
         res.cookie("token", token, {

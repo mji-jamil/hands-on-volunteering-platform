@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../ui/ErrorMessage";
 import useAuth from "../../hooks/useAuth.js";
@@ -13,11 +13,44 @@ const EventForm = ({ onCancel, onSuccess }) => {
         location: "",
         category: "environmental",
         type: "event",
+        urgency: "low",
     });
     const [errors, setErrors] = useState([]);
 
+    const [currentDateTime, setCurrentDateTime] = useState({
+        date: new Date().toISOString().split("T")[0],
+        time: new Date().toLocaleTimeString("en-GB", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+        }),
+    });
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const now = new Date();
+            setCurrentDateTime({
+                date: now.toISOString().split("T")[0],
+                time: now.toLocaleTimeString("en-GB", {
+                    hour12: false,
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }),
+            });
+        }, 60000);
+
+        return () => clearInterval(timer);
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const selectedDateTime = new Date(`${formData.date}T${formData.time}`);
+        const now = new Date();
+
+        if (selectedDateTime < now) {
+            setErrors(["Event date/time must be in the future"]);
+            return;
+        }
         try {
             const { data } = await axios.post(
                 "http://localhost:5000/api/events",
@@ -84,6 +117,48 @@ const EventForm = ({ onCancel, onSuccess }) => {
             </div>
 
             <div>
+                <label className="block text-gray-700 mb-2">Type</label>
+                <select
+                    value={formData.type}
+                    onChange={(e) =>
+                        setFormData({
+                            ...formData,
+                            type: e.target.value,
+                            urgency:
+                                e.target.value === "communityHelp"
+                                    ? "low"
+                                    : undefined,
+                        })
+                    }
+                    className="w-full p-2 border rounded"
+                >
+                    <option value="event">Event</option>
+                    <option value="communityHelp">Community Help</option>
+                </select>
+            </div>
+            {formData.type === "communityHelp" && (
+                <div>
+                    <label className="block text-gray-700 mb-2">
+                        Urgency Level
+                    </label>
+                    <select
+                        value={formData.urgency}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                urgency: e.target.value,
+                            })
+                        }
+                        className="w-full p-2 border rounded"
+                    >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            )}
+
+            <div>
                 <label className="block text-gray-700 mb-2">Description</label>
                 <textarea
                     value={formData.description}
@@ -104,6 +179,7 @@ const EventForm = ({ onCancel, onSuccess }) => {
                     <input
                         type="date"
                         value={formData.date}
+                        min={currentDateTime.date}
                         onChange={(e) =>
                             setFormData({ ...formData, date: e.target.value })
                         }
@@ -117,6 +193,11 @@ const EventForm = ({ onCancel, onSuccess }) => {
                     <input
                         type="time"
                         value={formData.time}
+                        min={
+                            formData.date === currentDateTime.date
+                                ? currentDateTime.time
+                                : undefined
+                        }
                         onChange={(e) =>
                             setFormData({ ...formData, time: e.target.value })
                         }

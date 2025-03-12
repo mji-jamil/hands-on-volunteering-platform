@@ -33,12 +33,12 @@ export default function Navbar() {
                         >
                             HandsOn
                         </Link>
-                        <Link
-                            to="/events"
-                            className="text-gray-700 hover:text-green-600"
-                        >
-                            Events
-                        </Link>
+                        {/*<Link*/}
+                        {/*    to="/events"*/}
+                        {/*    className="text-gray-700 hover:text-green-600"*/}
+                        {/*>*/}
+                        {/*    Events*/}
+                        {/*</Link>*/}
                     </div>
 
                     <div className="flex items-center space-x-4">

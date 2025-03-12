@@ -9,7 +9,6 @@ const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [filters, setFilters] = useState({});
     const { user } = useAuth();
-    // console.log(user);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -69,7 +68,7 @@ const EventsPage = () => {
             <CreateEventButton onEventCreated={handleNewEvent} />
             <EventFilters onFilterChange={setFilters} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {events.length > 0 ? (
+                {events?.length > 0 ? (
                     events.map((event) => (
                         <EventCard
                             key={event._id}
