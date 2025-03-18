@@ -1,7 +1,5 @@
 # HandsOn - Volunteer Platform
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ## 🌟 Project Overview
 A GitHub-like platform for social volunteering that connects individuals with meaningful community impact opportunities through organized events and team initiatives.
 
@@ -44,74 +42,39 @@ npm run dev
 
 ## API Endpoints
 
-### 🆕 User Registration
-**`POST /api/auth/register`**
-```http
-POST /api/auth/register
-Content-Type: application/json
+### Authentication
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|-------------|
+| `POST` | `/api/auth/register` | Register a new user | ❌ |
+| `POST` | `/api/auth/login` | Login a user | ❌ |
+| `POST` | `/api/auth/logout` | Logout a user | ✅ |
 
-{
-  "name": "Jamil Smith",
-  "email": "jamil@email.com",
-  "password": "SecurePass123!",
-}
-```
-
-**✅ Success Response (201 Created)**  
+#### Example User for Testing
 ```json
 {
-  "user": {
-    "id": "65f8a1b2c1e6a4c1e6a4c1e6",
-    "name": "Jamil Smith",
-    "email": "jamil@email.com"
-  }
-}
-```
-### 🔑 User Login
-**`POST /api/auth/login`**
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "jamil@email.com",
-  "password": "SecurePass123!"
-}
-```
-✅ Success Response (200 OK)
-```
-{
-  "success": true,
-  "user": {
-    "id": "65f8a1b2c1e6a4c1e6a4c1e6",
-    "name": "Jamil Smith",
+    "name": "Jamiul Islam",
     "email": "jamil@email.com",
-    "skills": ["Teaching", "First Aid"],
-    "causes": ["Education", "Poverty"]
-  }
+    "password": "Jamil123"
 }
 ```
-👤 Get User Profile
-GET /api/auth/profile
 
-✏️ Update Profile
-PUT /api/auth/profile
-```
-PUT /api/auth/profile
-Authorization: Bearer <JWT_TOKEN>
-Content-Type: application/json
+### Events
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|-------------|
+| `POST` | `/api/events` | Create a new event | ✅ 
+| `GET` | `/api/events` | Get all events | ❌ |
+| `GET` | `/api/events/:eventId` | Get a single event by ID | ❌ |
+| `POST` | `/api/events/:id/join` | Join an event | ✅ 
+| `GET` | `/api/events/user/:userId` | Get events by user ID | ✅ 
 
-{
-  "name": "Updated Name",
-  "skills": ["New Skill", "First Aid"],
-  "causes": ["Environment", "Education"]
-}
-```
-## Error Handling Reference
+### Comments
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| `POST` | `/api/events/:eventId/comments` | Add a comment to an event | ✅             |
+| `GET` | `/api/events/:eventId/comments` | Get comments for an event | ❌             |
 
-| Code | Scenario                      | Example Response                          |
-|------|-------------------------------|-------------------------------------------|
-| 🔒 401  | **Invalid Credentials**       | `{"message": "Invalid credentials"}`      |
-| 💥 409  | **Duplicate Email**           | `{"message": "User already exists"}`     |
-| ⏳ 429  | **Rate Limit Exceeded**       | `{"message": "Too many attempts"}`        |
-| 🖥️ 500  | **Internal Server Error**     | `{"message": "Internal server error"}`    |
+### User Profile
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|-------------|
+| `GET` | `/api/users/profile` | Get user profile | ✅ |
+| `PUT` | `/api/users/profile` | Update user profile | ✅ |
