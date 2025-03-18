@@ -23,6 +23,80 @@ A GitHub-like platform for social volunteering that connects individuals with me
 - Team collaboration spaces
 - Achievement badges & leaderboards
 
+## Database Schema 🗃️
+
+```mermaid
+erDiagram
+    USER ||--o{ EVENT : creates
+    USER ||--o{ COMMENT : writes
+    USER ||--o{ HOUR_LOG : logs
+    USER ||--o{ CERTIFICATE : earns
+    EVENT ||--o{ COMMENT : has
+    EVENT ||--o{ HOUR_LOG : tracks
+
+    USER {
+        ObjectId _id PK
+        String name
+        String email "UNIQUE"
+        String password
+        String[] skills
+        String[] causes
+        Number volunteerHours
+        Number points
+        ObjectId[] volunteerHistory
+        ObjectId[] certificates
+        DateTime createdAt
+    }
+    
+    EVENT {
+        ObjectId _id PK
+        String title
+        String description
+        DateTime date
+        String time
+        String location
+        String type "enum: ['volunteerEvent', 'communityHelp']"
+        String category
+        String urgency "enum: ['low', 'medium', 'urgent']"
+        ObjectId createdBy FK
+        ObjectId[] attendees FK
+        ObjectId[] comments FK
+        Boolean isPlatformEvent
+        DateTime createdAt
+    }
+
+    COMMENT {
+        ObjectId _id PK
+        String content
+        ObjectId user FK
+        ObjectId event FK
+        DateTime createdAt
+    }
+
+    HOUR_LOG {
+        ObjectId _id PK
+        Number hours
+        String status "enum: ['pending', 'verified']"
+        ObjectId user FK
+        ObjectId event FK
+        Verification[] verifications
+        DateTime createdAt
+    }
+
+    CERTIFICATE {
+        ObjectId _id PK
+        Number hoursMilestone
+        String downloadUrl
+        ObjectId user FK
+        DateTime issuedAt
+    }
+
+    Verification {
+        ObjectId user FK
+        String status "enum: ['approved', 'rejected']"
+    } 
+```
+
 ## Backend Setup:
 cd backend
 npm install

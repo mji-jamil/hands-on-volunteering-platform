@@ -1,10 +1,11 @@
 import useAuth from "../../hooks/useAuth.js";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const EventCard = ({ event, onJoin }) => {
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const [isJoined, setIsJoined] = useState(false);
     const [isJoining, setIsJoining] = useState(false);
@@ -25,7 +26,7 @@ const EventCard = ({ event, onJoin }) => {
         const fetchCommentCount = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/events/${event._id}/comments`
+                    `http://localhost:5000/api/events/${event._id}/comments`,
                 );
                 setCommentCount(response.data.length);
             } catch (error) {
@@ -38,9 +39,14 @@ const EventCard = ({ event, onJoin }) => {
     }, [event._id]);
 
     const handleJoin = async () => {
-        if (!user || isJoined) return;
+        if (!user) {
+            navigate("/login");
+            return;
+        }
 
+        if (isJoined) return;
         setIsJoining(true);
+
         try {
             await onJoin(event._id);
             setIsJoined(true);
@@ -120,7 +126,7 @@ const EventCard = ({ event, onJoin }) => {
             </div>
             <button
                 onClick={handleJoin}
-                disabled={!user || isJoined || isJoining}
+                disabled={isJoined || isJoining}
                 className={`w-full py-2 px-4 rounded-md transition-colors ${
                     isJoined
                         ? "bg-gray-300 cursor-default"
