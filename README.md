@@ -19,9 +19,8 @@ A GitHub-like platform for social volunteering that connects individuals with me
 - User registration & profile management
 - Event discovery with advanced filters
 - One-click event registration
-- Volunteer hour tracking
-- Team collaboration spaces
-- Achievement badges & leaderboards
+- Create events and community helps
+- Comments on events and community helps
 
 ## Database Schema 🗃️
 
@@ -29,10 +28,7 @@ A GitHub-like platform for social volunteering that connects individuals with me
 erDiagram
     USER ||--o{ EVENT : creates
     USER ||--o{ COMMENT : writes
-    USER ||--o{ HOUR_LOG : logs
-    USER ||--o{ CERTIFICATE : earns
     EVENT ||--o{ COMMENT : has
-    EVENT ||--o{ HOUR_LOG : tracks
 
     USER {
         ObjectId _id PK
@@ -44,7 +40,6 @@ erDiagram
         Number volunteerHours
         Number points
         ObjectId[] volunteerHistory
-        ObjectId[] certificates
         DateTime createdAt
     }
     
@@ -61,7 +56,6 @@ erDiagram
         ObjectId createdBy FK
         ObjectId[] attendees FK
         ObjectId[] comments FK
-        Boolean isPlatformEvent
         DateTime createdAt
     }
 
@@ -73,28 +67,6 @@ erDiagram
         DateTime createdAt
     }
 
-    HOUR_LOG {
-        ObjectId _id PK
-        Number hours
-        String status "enum: ['pending', 'verified']"
-        ObjectId user FK
-        ObjectId event FK
-        Verification[] verifications
-        DateTime createdAt
-    }
-
-    CERTIFICATE {
-        ObjectId _id PK
-        Number hoursMilestone
-        String downloadUrl
-        ObjectId user FK
-        DateTime issuedAt
-    }
-
-    Verification {
-        ObjectId user FK
-        String status "enum: ['approved', 'rejected']"
-    } 
 ```
 
 ## Backend Setup:
